@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Proiect Sincretic Azure</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            margin: 40px;
+        }
+
+        h1 {
+            color: #222;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #cccccc;
+            max-width: 750px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 18px;
+            margin: 5px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .on {
+            background: #27ae60;
+        }
+
+        .off {
+            background: #c0392b;
+        }
+
+        .info {
+            background: #2980b9;
+        }
+
+        .warning {
+            background: #f39c12;
+        }
+
+        .send {
+            background: #8e44ad;
+        }
+
+        .delete {
+            background: #e74c3c;
+            padding: 7px 12px;
+            font-size: 13px;
+        }
+
+        .value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+            font-size: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Proiect Sincretic - Azure + Arduino</h1>
+
+    <div class="card">
+        <h2>Stare LED</h2>
+        <p class="value">{{ state.led_status }}</p>
+
+        <a class="btn on" href="/led/on">LED ON</a>
+        <a class="btn off" href="/led/off">LED OFF</a>
+    </div>
+
+    <div class="card">
+        <h2>Temperatura</h2>
+        <p class="value">{{ state.temperature }} °C</p>
+
+        <a class="btn info" href="/temperature">Citește temperatura</a>
+    </div>
+
+    <div class="card">
+        <h2>Senzor apă / inundație</h2>
+
+        <p>
+            Valoare senzor:
+            <span class="value">{{ state.water_value }}</span>
+        </p>
+
+        <p>
+            Stare:
+            <span class="value">{{ state.water_status }}</span>
+        </p>
+
+        <a class="btn warning" href="/water">Verifică apă</a>
+    </div>
+
+    <div class="card">
+        <h2>Trimite mesaj către Arduino</h2>
+
+        <form action="/message" method="POST">
+            <input
+                type="text"
+                name="message"
+                placeholder="Scrie mesajul aici"
+                required
+            >
+
+            <button class="btn send" type="submit">
+                Trimite
+            </button>
+        </form>
+
+        <h3>Ultimele mesaje trimise</h3>
+
+        <ul>
+            {% for msg in state.messages %}
+                <li>{{ msg }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Evenimente inundație</h2>
+
+        <a class="btn warning" href="/flood/save">
+            Salvează eveniment inundație
+        </a>
+
+        <a class="btn info" href="/events/load">
+            Afișează evenimente salvate
+        </a>
+
+        <h3>Ultimele evenimente salvate în EEPROM</h3>
+
+        <ul>
+            {% for event in state.events %}
+                <li>
+                    Slot {{ event.slot }}:
+                    {{ event.text }}
+
+                    <a class="btn delete" href="/event/delete/{{ event.slot }}">
+                        Șterge
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Ultimul răspuns</h2>
+        <p>{{ state.last_response }}</p>
+    </div>
+
+</body>
+</html>
