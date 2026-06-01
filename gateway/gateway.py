@@ -2,11 +2,10 @@ import serial
 import time
 import requests
 
-# Dupa ce publici in Azure, schimbi aici cu linkul tau real.
-# Exemplu: https://smartcontroller.azurewebsites.net
+
 AZURE_URL = "https://smartcontroller-bianca-bdccbvagb4f6fnhj.francecentral-01.azurewebsites.net"
 
-# Schimba COM3 cu portul tau real: COM3, COM4, COM5 etc.
+
 PORT = "COM3"
 BAUD = 9600
 
@@ -121,8 +120,7 @@ while True:
                 events = citeste_evenimente_din_arduino()
                 payload["events"] = events
 
-            # Daca utilizatorul apasa "Afiseaza evenimente salvate",
-            # comanda este E si trebuie sa citim lista complet.
+            
             if command == "E":
                 events = citeste_evenimente_din_arduino()
                 payload["events"] = events

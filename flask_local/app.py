@@ -5,11 +5,6 @@ import time
 
 app = Flask(__name__)
 
-# =========================
-# CONFIGURARE SERIAL ARDUINO
-# =========================
-
-# Schimbă COM3 cu portul tău real: COM3, COM4, COM5 etc.
 PORT = "COM3"
 BAUD = 9600
 
@@ -28,9 +23,6 @@ messages = []
 events = []
 
 
-# =========================
-# FUNCȚII SERIAL
-# =========================
 
 def trimite_comanda(comanda):
     arduino.reset_input_buffer()
@@ -80,9 +72,6 @@ def citeste_lista_evenimente():
 
 
 
-# =========================
-# RUTE FLASK
-# =========================
 
 @app.route("/")
 def index():
@@ -173,7 +162,7 @@ def save_flood_event():
     if last_response.startswith("EVENT:SAVED:"):
         eveniment = last_response.replace("EVENT:SAVED:", "")
 
-        # Simulare notificare email
+        
         last_response = (
             last_response
             + " | EMAIL:SIMULAT - notificare generata pentru: "
@@ -200,7 +189,7 @@ def delete_event(slot):
 
     last_response = trimite_comanda("D:" + str(slot))
 
-    # După ștergere, reîncărcăm lista de evenimente
+   
     events = citeste_lista_evenimente()
 
     return redirect("/")
