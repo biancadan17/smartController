@@ -4,7 +4,7 @@ import requests
 
 # Dupa ce publici in Azure, schimbi aici cu linkul tau real.
 # Exemplu: https://smartcontroller.azurewebsites.net
-AZURE_URL = "https://numele-tau.azurewebsites.net"
+AZURE_URL = "https://smartcontroller-bianca-bdccbvagb4f6fnhj.francecentral-01.azurewebsites.net"
 
 # Schimba COM3 cu portul tau real: COM3, COM4, COM5 etc.
 PORT = "COM3"
